@@ -25,6 +25,9 @@ public class ViajesCompartidosApplication {
 	public CommandLineRunner initData(UsuarioService usuarioService,
 									  ConductorService conductorService){
 		return (args) -> {
+
+			//CREO UNOS USUARIOS
+
 			UsuarioInDTO usuario1 = new UsuarioInDTO("juancito@juanchito", "Juan", "Juancito",
 					"Juancito1234", "123456", true,
 					new ConductorInDTO(5.0, "abc123"));
@@ -40,11 +43,21 @@ public class ViajesCompartidosApplication {
 					new ConductorInDTO(5.0, "rti908"));
 			usuarioService.crearUsuario(usuario3);
 
+
+			//CREO UNOS VIAJES
 			ViajeInDTO viaje1 = new ViajeInDTO("Tandil","Capital federal", LocalDate.now(),4,true);
 			conductorService.crearNuevoViaje(viaje1,1L);
 
 			ViajeInDTO viaje2 = new ViajeInDTO("La Rioja","San Luis", LocalDate.now().plusMonths(1),4,true);
 			conductorService.crearNuevoViaje(viaje2,2L);
+
+
+			//AGREGO UNOS PASAJEROS A UN VIAJE
+
+			usuarioService.sumarseAViaje(2L,1L);
+			usuarioService.sumarseAViaje(3L,1L);
+
+
 
 		};
 	}
