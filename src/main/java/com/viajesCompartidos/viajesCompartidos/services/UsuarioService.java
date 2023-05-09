@@ -89,7 +89,27 @@ public class UsuarioService {
             viajeRepository.save(viaje);
             return new ResponseEntity<>("Pasajero agreado a viaje con exito", HttpStatus.OK);
         }
+    }
 
+    public ResponseEntity<Object> bajarseDeViaje(Long idUsuario, Long idViaje){
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(idUsuario);
+        Optional<Viaje> viajeOptional = viajeRepository.findById(idViaje);
 
+        if (usuarioOptional.isEmpty()){
+            throw new ViajesCompartidosExceptions("El usuario con id: "+ idUsuario+ " No existe!",HttpStatus.NOT_FOUND);
+        }
+        if (viajeOptional.isEmpty()){
+            throw new ViajesCompartidosExceptions("El viaje con id: "+ idViaje + " No existe!",HttpStatus.NOT_FOUND);
+        }
+        Viaje viaje = viajeOptional.get();
+        Usuario usuario = usuarioOptional.get();
+
+        if (!viaje.getPasajeros().contains(usuario)){
+            throw new ViajesCompartidosExceptions("Usuario no se encuentra registrado en este viaje.",HttpStatus.NOT_FOUND);
+        }
+
+        viaje.borrarPasajeroDeViaje(usuario);
+        viajeRepository.save(viaje);
+        return new ResponseEntity<>("Pasajero dado de baja del viaje con exito", HttpStatus.OK);
     }
 }

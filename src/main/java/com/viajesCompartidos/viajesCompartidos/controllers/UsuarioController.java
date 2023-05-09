@@ -42,4 +42,9 @@ public class UsuarioController {
         return usuarioService.sumarseAViaje(idUsuario, idViaje);
     }
 
+    @DeleteMapping("/{idUsuario}/viajes/{idViaje}")
+    public ResponseEntity<Object> bajarseDeViaje(@PathVariable Long idUsuario, @PathVariable Long idViaje){
+        return usuarioService.bajarseDeViaje(idUsuario,idViaje);
+    }
+
 }

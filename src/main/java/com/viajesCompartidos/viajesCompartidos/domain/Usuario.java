@@ -47,4 +47,7 @@ public class Usuario {
         this.viajes.add(viaje);
     }
 
+    public void removeViaje(Viaje viaje) {
+        this.viajes.remove(viaje);
+    }
 }

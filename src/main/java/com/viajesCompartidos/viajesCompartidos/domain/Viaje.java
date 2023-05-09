@@ -30,7 +30,7 @@ public class Viaje {
             joinColumns = @JoinColumn(name = "viaje_id"),
             inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
-    private List<Usuario> pasajeros = new ArrayList<>();
+    protected List<Usuario> pasajeros = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "conductor_id")
@@ -41,6 +41,14 @@ public class Viaje {
             pasajeros.add(usuario);
             this.lugaresDisponibles--;
             usuario.addViaje(this);
+        }
+    }
+
+    public void borrarPasajeroDeViaje(Usuario usuario){
+        if(this.pasajeros.contains(usuario)){
+            this.pasajeros.remove(usuario);
+            this.lugaresDisponibles++;
+            usuario.removeViaje(this);
         }
     }
 }
